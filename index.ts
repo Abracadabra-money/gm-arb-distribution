@@ -6,7 +6,7 @@ query {
         skip: 1
         first: 1
         where: {
-        marketAddress: "0xc25cef6061cf5de5eb761b50e4743c1f5d7e5407"
+            marketAddress: "0xc25cef6061cf5de5eb761b50e4743c1f5d7e5407"
         }
         orderBy: timestamp
         orderDirection: desc
@@ -15,12 +15,52 @@ query {
         timestamp
     }
 
+    gmETHMarket: marketIncentivesStats(
+        skip: 1
+        first: 1
+        where: {
+        marketAddress: "0x70d95587d40a2caf56bd97485ab3eec10bee6336"
+        }
+        orderBy: timestamp
+        orderDirection: desc
+    ) {
+        weightedAverageMarketTokensSupply
+        timestamp
+    }
+
+    gmBTCMarket: marketIncentivesStats(
+        skip: 1
+        first: 1
+        where: {
+            marketAddress: "0x47c031236e19d024b42f8ae6780e44a573170703"
+        }
+        orderBy: timestamp
+        orderDirection: desc
+    ) {
+        weightedAverageMarketTokensSupply
+        timestamp
+    }
+
+    
+    gmSOLMarket: marketIncentivesStats(
+        skip: 1
+        first: 1
+        where: {
+        marketAddress: "0x09400d9db990d5ed3f35d7be61dfaeb900af03c9"
+        }
+        orderBy: timestamp
+        orderDirection: desc
+    ) {
+        weightedAverageMarketTokensSupply
+        timestamp
+    }
+    
     gmARBDeposit: liquidityProviderIncentivesStats(
         skip: 1
         first: 1
         where: {
-        account: "0x7c8fef8ea9b1fe46a7689bfb8149341c90431d38"
-        marketAddress: "0xc25cef6061cf5de5eb761b50e4743c1f5d7e5407"
+            account: "0x7c8fef8ea9b1fe46a7689bfb8149341c90431d38"
+            marketAddress: "0xc25cef6061cf5de5eb761b50e4743c1f5d7e5407"
         }
         orderBy: timestamp
         orderDirection: desc
@@ -33,26 +73,13 @@ query {
         skip: 1
         first: 1
         where: {
-        account: "0x7c8fef8ea9b1fe46a7689bfb8149341c90431d38"
-        marketAddress: "0x47c031236e19d024b42f8ae6780e44a573170703"
+            account: "0x7c8fef8ea9b1fe46a7689bfb8149341c90431d38"
+            marketAddress: "0x47c031236e19d024b42f8ae6780e44a573170703"
         }
         orderBy: timestamp
         orderDirection: desc
     ) {
         weightedAverageMarketTokensBalance
-        timestamp
-    }
-
-    gmBTCMarket: marketIncentivesStats(
-        skip: 1
-        first: 1
-        where: {
-        marketAddress: "0x47c031236e19d024b42f8ae6780e44a573170703"
-        }
-        orderBy: timestamp
-        orderDirection: desc
-    ) {
-        weightedAverageMarketTokensSupply
         timestamp
     }
 
@@ -70,19 +97,6 @@ query {
         timestamp
     }
 
-    gmETHMarket: marketIncentivesStats(
-        skip: 1
-        first: 1
-        where: {
-        marketAddress: "0x70d95587d40a2caf56bd97485ab3eec10bee6336"
-        }
-        orderBy: timestamp
-        orderDirection: desc
-    ) {
-        weightedAverageMarketTokensSupply
-        timestamp
-    }
-
     gmSOLDeposit: liquidityProviderIncentivesStats(
         skip: 1
         first: 1
@@ -94,19 +108,6 @@ query {
         orderDirection: desc
     ) {
         weightedAverageMarketTokensBalance
-        timestamp
-    }
-
-    gmSOLMarket: marketIncentivesStats(
-        skip: 1
-        first: 1
-        where: {
-        marketAddress: "0x09400d9db990d5ed3f35d7be61dfaeb900af03c9"
-        }
-        orderBy: timestamp
-        orderDirection: desc
-    ) {
-        weightedAverageMarketTokensSupply
         timestamp
     }
 }
