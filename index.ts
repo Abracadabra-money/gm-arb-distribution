@@ -169,7 +169,7 @@ const main = async () => {
     const transactionBatchFile = `./distributions/${distributionTimestamp}_transaction_batch.json`;
     const inputFile = `./distributions/${distributionTimestamp}_input.json`;
     await writeFile(transactionBatchFile, JSON.stringify(batch, null, 4), 'utf8');
-    await writeFile(inputFile, JSON.stringify({ url, headers, query: latestDistributionQuery.replace(/\n\s*/g, ' ').replace(/\"/g, '\''), result: data }, null, 4), 'utf8');
+    await writeFile(inputFile, JSON.stringify({ url, headers, query: latestDistributionQuery.replace(/\n\s*/g, ' ').replace(/\"/g, '\'').trim(), result: data }, null, 4), 'utf8');
     await writeFile('./distributions/.latest', distributionTimestamp.toString(), 'utf8');
     console.log(`Created distribution: ${transactionBatchFile}`);
   }
