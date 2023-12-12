@@ -165,7 +165,7 @@ const main = async () => {
       transactions,
     });
     const distributionFile = `./distributions/${distributionTimestamp}.json`;
-    await writeFile(distributionFile, JSON.stringify(batch), 'utf8');
+    await writeFile(distributionFile, JSON.stringify(batch, null, 4), 'utf8');
     await writeFile('./distributions/.latest', distributionTimestamp.toString(), 'utf8');
     console.log(`Created distribution: ${distributionFile}`);
   }
