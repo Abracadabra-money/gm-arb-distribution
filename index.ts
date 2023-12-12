@@ -120,6 +120,8 @@ const main = async () => {
 
   // Calculate distribution
   const transactions = [];
+  let totalToDistribute = BigInt(0);
+
   for (const { symbol, farm } of markets) {
     const queryDeposits = data[`gm${symbol}Deposit`];
     const queryMarkets = data[`gm${symbol}Market`];
@@ -136,6 +138,8 @@ const main = async () => {
     const marketAverageDeposited = queryMarkets.slice(0, queryDeposits.length).reduce((a, b) => a + BigInt(b.weightedAverageMarketTokensSupply), 0n) / BigInt(queryMarkets.length);
 
     const distributionAmount = BigInt(distribution[symbol]) * 10n ** 18n * bentoboxAverageDeposited / marketAverageDeposited;
+
+
     transactions.push(
       createTransaction({
         to: rewardToken,
@@ -158,11 +162,16 @@ const main = async () => {
         }
       })
     )
+
+    totalToDistribute += distributionAmount;
+    console.log(`Distributing gm${symbol}: ${(Number(distributionAmount.toString()) / 1e18).toLocaleString("us")} ARB`);
   }
 
   if (transactions.length === 0) {
     console.log("Nothing to distribute...")
   } else {
+    console.log(`Total to distribute: ${(Number(totalToDistribute.toString()) / 1e18).toLocaleString("us")} ARB`);
+
     const distributionTimestamp = data[`gm${markets[0].symbol}Market`][0].timestamp;
     const batch = createBatch({
       chainId: `${arbitrum.id}`,

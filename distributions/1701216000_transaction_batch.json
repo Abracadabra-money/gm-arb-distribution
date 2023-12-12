@@ -1,6 +1,6 @@
 {
     "version": "1.0",
-    "createdAt": 1702406308535,
+    "createdAt": 1702407827595,
     "chainId": "42161",
     "transactions": [
         {
@@ -29,7 +29,7 @@
             },
             "contractInputsValues": {
                 "_spender": "0xaf4fdcaa6d9d5be4acd8fce02fa37f72b31a74cb",
-                "_value": "4014620285650123430"
+                "_value": "13988161566439613881"
             }
         },
         {
@@ -52,7 +52,7 @@
                 "outputs": []
             },
             "contractInputsValues": {
-                "amount": "4014620285650123430",
+                "amount": "13988161566439613881",
                 "rewardToken": "0x912ce59144191c1204e64559fe8253a0e49e6548"
             }
         },
@@ -82,7 +82,7 @@
             },
             "contractInputsValues": {
                 "_spender": "0xeb0deab1099dd5a7d499b89a6f47cef8f08c5680",
-                "_value": "64387820953371820285"
+                "_value": "123881984896095202203"
             }
         },
         {
@@ -105,7 +105,7 @@
                 "outputs": []
             },
             "contractInputsValues": {
-                "amount": "64387820953371820285",
+                "amount": "123881984896095202203",
                 "rewardToken": "0x912ce59144191c1204e64559fe8253a0e49e6548"
             }
         },
@@ -135,7 +135,7 @@
             },
             "contractInputsValues": {
                 "_spender": "0xa7940dcb17214fabce26e146613804308c01c295",
-                "_value": "39267612842457806219"
+                "_value": "79590311335511279265"
             }
         },
         {
@@ -158,7 +158,7 @@
                 "outputs": []
             },
             "contractInputsValues": {
-                "amount": "39267612842457806219",
+                "amount": "79590311335511279265",
                 "rewardToken": "0x912ce59144191c1204e64559fe8253a0e49e6548"
             }
         },
@@ -188,7 +188,7 @@
             },
             "contractInputsValues": {
                 "_spender": "0x18f7cca3d98ad96cf26dbda1db3fd71e30d32d31",
-                "_value": "68690288884454738228"
+                "_value": "100662566412589378071"
             }
         },
         {
@@ -211,12 +211,12 @@
                 "outputs": []
             },
             "contractInputsValues": {
-                "amount": "68690288884454738228",
+                "amount": "100662566412589378071",
                 "rewardToken": "0x912ce59144191c1204e64559fe8253a0e49e6548"
             }
         }
     ],
     "meta": {
-        "checksum": "0x3f668f1d6f83df7ae9cb2fd11eb4cdeb7635e3593af54da96fdaf2db2fa9f14a"
+        "checksum": "0x71b7d85dbbcc2619406c554481ffaea938673fb5a50a55445002dde4bc5c487d"
     }
 }
