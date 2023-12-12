@@ -107,9 +107,11 @@ const main = async () => {
   const latestDistribution = Number(await readFile('./distributions/.latest', 'utf8'));
   const distribution: Distribution = JSON.parse(await readFile('./distribution.json', 'utf8'));
 
+  const latestDistributionQuery = query(latestDistribution);
+  const headers = { "Content-Type": "application/json", "origin": "https://subgraph.satsuma-prod.com", "referer": "https://subgraph.satsuma-prod.com/gmx/synthetics-arbitrum-stats/playground" };
   const result = await fetch(url, {
-    method: "POST", body: JSON.stringify({ query: query(latestDistribution) }),
-    headers: { "Content-Type": "application/json", "origin": "https://subgraph.satsuma-prod.com", "referer": "https://subgraph.satsuma-prod.com/gmx/synthetics-arbitrum-stats/playground" }
+    method: "POST", body: JSON.stringify({ query: latestDistributionQuery }),
+    headers
   });
 
   const { data } = await result.json() as Query;
@@ -164,10 +166,12 @@ const main = async () => {
       chainId: `${arbitrum.id}`,
       transactions,
     });
-    const distributionFile = `./distributions/${distributionTimestamp}.json`;
-    await writeFile(distributionFile, JSON.stringify(batch, null, 4), 'utf8');
+    const transactionBatchFile = `./distributions/${distributionTimestamp}_transaction_batch.json`;
+    const inputFile = `./distributions/${distributionTimestamp}_input.json`;
+    await writeFile(transactionBatchFile, JSON.stringify(batch, null, 4), 'utf8');
+    await writeFile(inputFile, JSON.stringify({ url, headers, query: latestDistributionQuery.replace(/\n\s*/g, ' ').replace(/\"/g, '\''), result: data }, null, 4), 'utf8');
     await writeFile('./distributions/.latest', distributionTimestamp.toString(), 'utf8');
-    console.log(`Created distribution: ${distributionFile}`);
+    console.log(`Created distribution: ${transactionBatchFile}`);
   }
 }
 
