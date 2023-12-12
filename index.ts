@@ -1,49 +1,75 @@
 import { readFile, writeFile } from "fs/promises";
+import { Address, parseAbiItem } from "viem";
+import { createBatch, createTransaction } from "./safe";
+import { arbitrum } from "viem/chains";
 
-const tokens = [{
-  symbol: "ARB",
-  address: "0xc25cef6061cf5de5eb761b50e4743c1f5d7e5407",
-}, {
-  symbol: "BTC",
-  address: "0x47c031236e19d024b42f8ae6780e44a573170703",
-}, {
-  symbol: "ETH",
-  address: "0x70d95587d40a2caf56bd97485ab3eec10bee6336",
-}, {
-  symbol: "LINK",
-  address: "0x7f1fa204bb700853d36994da19f830b6ad18455c",
-}, {
-  symbol: "SOL",
-  address: "0x09400d9db990d5ed3f35d7be61dfaeb900af03c9",
-}] as const;
+const approveAbi = parseAbiItem(
+  "function approve(address _spender, uint256 _value) public returns (bool success)" as const
+);
 
-type TokenSymbol = typeof tokens[number]['symbol'];
+const notifyRewardAmountAbi = parseAbiItem(
+  "function notifyRewardAmount(address rewardToken, uint256 amount) public" as const
+)
+
+const bentoBox: Address = "0x7c8fef8ea9b1fe46a7689bfb8149341c90431d38";
+
+const rewardToken: Address = "0x912ce59144191c1204e64559fe8253a0e49e6548";
 
 type Market = {
+  symbol: string;
+  token: Address;
+  farm: Address;
+}
+
+const markets = [{
+  symbol: "ARB",
+  token: "0xc25cef6061cf5de5eb761b50e4743c1f5d7e5407",
+  farm: "0xaf4fdcaa6d9d5be4acd8fce02fa37f72b31a74cb",
+}, {
+  symbol: "BTC",
+  token: "0x47c031236e19d024b42f8ae6780e44a573170703",
+  farm: "0xeb0deab1099dd5a7d499b89a6f47cef8f08c5680",
+}, {
+  symbol: "ETH",
+  token: "0x70d95587d40a2caf56bd97485ab3eec10bee6336",
+  farm: "0xa7940dcb17214fabce26e146613804308c01c295",
+}, {
+  symbol: "LINK",
+  token: "0x7f1fa204bb700853d36994da19f830b6ad18455c",
+  farm: "0x5b51f27c279aeecc8352688b69d55b533417e263",
+}, {
+  symbol: "SOL",
+  token: "0x09400d9db990d5ed3f35d7be61dfaeb900af03c9",
+  farm: "0x18f7cca3d98ad96cf26dbda1db3fd71e30d32d31",
+}] as const satisfies Market[];
+
+type TokenSymbol = typeof markets[number]['symbol'];
+
+type QueryMarket = {
   "weightedAverageMarketTokensSupply": string,
   "timestamp": number;
 };
-type Deposit = {
+type QueryDeposit = {
   "weightedAverageMarketTokensBalance": string,
   "timestamp": number;
 };
 
 type Query = {
-  "data": Record<`gm${TokenSymbol}Deposit`, Deposit[]> & Record<`gm${TokenSymbol}Market`, Market[]>
+  "data": Record<`gm${TokenSymbol}Deposit`, QueryDeposit[]> & Record<`gm${TokenSymbol}Market`, QueryMarket[]>
 };
 
 const url = "https://subgraph.satsuma-prod.com/gmx/synthetics-arbitrum-stats/api";
 
 const query = (since: number) => {
   let objects = ""
-  for (const { symbol, address } of tokens) {
+  for (const { symbol, token } of markets) {
     objects += `
       gm${symbol}Deposit: liquidityProviderIncentivesStats(
         skip: 1
         first: 10000
         where: {
-          account: "0x7c8fef8ea9b1fe46a7689bfb8149341c90431d38"
-          marketAddress: "${address}"
+          account: "${bentoBox}"
+          marketAddress: "${token}"
           timestamp_gt: ${since}
         }
         orderBy: timestamp
@@ -52,14 +78,12 @@ const query = (since: number) => {
         weightedAverageMarketTokensBalance
         timestamp
       }
-    `;
 
-    objects += `
       gm${symbol}Market: marketIncentivesStats(
         skip: 1
         first: 10000
         where: {
-          marketAddress: "${address}"
+          marketAddress: "${token}"
           timestamp_gt: ${since}
         }
         orderBy: timestamp
@@ -77,53 +101,73 @@ const query = (since: number) => {
   `;
 };
 
-type Storage = {
-  lastDistributionTimestamp: number;
-};
-
 type Distribution = Record<TokenSymbol, string>;
 
 const main = async () => {
-  const storage: Storage = JSON.parse(await readFile('./storage.json', 'utf8'));
+  const latestDistribution = Number(await readFile('./distributions/.latest', 'utf8'));
   const distribution: Distribution = JSON.parse(await readFile('./distribution.json', 'utf8'));
 
   const result = await fetch(url, {
-    method: "POST", body: JSON.stringify({ query: query(storage.lastDistributionTimestamp) }),
+    method: "POST", body: JSON.stringify({ query: query(latestDistribution) }),
     headers: { "Content-Type": "application/json", "origin": "https://subgraph.satsuma-prod.com", "referer": "https://subgraph.satsuma-prod.com/gmx/synthetics-arbitrum-stats/playground" }
   });
 
   const { data } = await result.json() as Query;
 
-  let emptyDistribution = true;
   // Calculate distribution
-  for (const { symbol } of tokens) {
-    const deposits = data[`gm${symbol}Deposit`];
-    const markets = data[`gm${symbol}Market`];
+  const transactions = [];
+  for (const { symbol, farm } of markets) {
+    const queryDeposits = data[`gm${symbol}Deposit`];
+    const queryMarkets = data[`gm${symbol}Market`];
 
-    if (deposits.length > markets.length) {
+    if (queryDeposits.length > queryMarkets.length) {
       throw Error(`Markets and deposits inconsitent for ${symbol}`);
     }
 
-    if (deposits.length === 0) {
+    if (queryDeposits.length === 0) {
       continue;
     }
 
-    emptyDistribution = false;
+    const bentoboxAverageDeposited = queryDeposits.reduce((a, b) => a + BigInt(b.weightedAverageMarketTokensBalance), 0n) / BigInt(queryDeposits.length);
+    const marketAverageDeposited = queryMarkets.slice(0, queryDeposits.length).reduce((a, b) => a + BigInt(b.weightedAverageMarketTokensSupply), 0n) / BigInt(queryMarkets.length);
 
-    const bentoboxAverageDeposited = deposits.reduce((a, b) => a + BigInt(b.weightedAverageMarketTokensBalance), 0n) / BigInt(deposits.length);
-    const marketAverageDeposited = markets.slice(0, deposits.length).reduce((a, b) => a + BigInt(b.weightedAverageMarketTokensSupply), 0n) / BigInt(markets.length);
-    const ratio = Number(bentoboxAverageDeposited) / Number(marketAverageDeposited);
-    const distribute = Number(distribution[symbol]) * ratio;
-    console.log(`Distibute "${distribute}" to gm${symbol}`);
+    const distributionAmount = BigInt(distribution[symbol]) * 10n ** 18n * bentoboxAverageDeposited / marketAverageDeposited;
+    transactions.push(
+      createTransaction({
+        to: rewardToken,
+        value: "0",
+        contractMethod: approveAbi,
+        contractInputsValues: {
+          _spender: farm,
+          _value: distributionAmount.toString(),
+        },
+      })
+    );
+    transactions.push(
+      createTransaction({
+        to: farm,
+        value: "0",
+        contractMethod: notifyRewardAmountAbi,
+        contractInputsValues: {
+          amount: distributionAmount.toString(),
+          rewardToken: rewardToken,
+        }
+      })
+    )
   }
 
-  if (emptyDistribution) {
+  if (transactions.length === 0) {
     console.log("Nothing to distribute...")
   } else {
-    const newStorage: Storage = {
-      lastDistributionTimestamp: data[`gm${tokens[0].symbol}Market`][0].timestamp,
-    };
-    await writeFile('./storage.json', JSON.stringify(newStorage, undefined, 4), 'utf8');
+    const distributionTimestamp = data[`gm${markets[0].symbol}Market`][0].timestamp;
+    const batch = createBatch({
+      chainId: `${arbitrum.id}`,
+      transactions,
+    });
+    const distributionFile = `./distributions/${distributionTimestamp}.json`;
+    await writeFile(distributionFile, JSON.stringify(batch), 'utf8');
+    await writeFile('./distributions/.latest', distributionTimestamp.toString(), 'utf8');
+    console.log(`Created distribution: ${distributionFile}`);
   }
 }
 
