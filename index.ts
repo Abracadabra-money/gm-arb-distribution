@@ -105,6 +105,8 @@ type Distribution = Record<TokenSymbol, string>;
 
 const main = async () => {
   const latestDistribution = Number(await readFile('./distributions/.latest', 'utf8'));
+
+  // Reference: https://gmxio.notion.site/GMX-S-T-I-P-Incentives-Distribution-1a5ab9ca432b4f1798ff8810ce51fec3#dc108b8a0a114c609ead534d1908d2fa
   const distribution: Distribution = JSON.parse(await readFile('./distribution.json', 'utf8'));
 
   const latestDistributionQuery = query(latestDistribution);
