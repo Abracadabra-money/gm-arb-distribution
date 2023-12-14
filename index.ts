@@ -102,6 +102,7 @@ const query = (since: number) => {
 };
 
 type Distribution = Record<TokenSymbol, string>;
+const formattedDistributions: Distribution = {} as Distribution;
 
 const main = async () => {
   const latestDistribution = Number(await readFile('./distributions/.latest', 'utf8'));
@@ -169,13 +170,17 @@ const main = async () => {
     )
 
     totalToDistribute += distributionAmount;
-    console.log(`Distributing gm${symbol}: ${(Number(distributionAmount.toString()) / 1e18).toLocaleString("us")} ARB`);
+
+    formattedDistributions[symbol] = `${(Number(distributionAmount.toString()) / 1e18).toLocaleString("us")} ARB`;
+    console.log(`Distributing gm${symbol}: ${formattedDistributions[symbol]}`);
   }
 
   if (transactions.length === 0) {
     console.log("Nothing to distribute...")
   } else {
-    console.log(`Total to distribute: ${(Number(totalToDistribute.toString()) / 1e18).toLocaleString("us")} ARB`);
+
+    const formattedTotalToDistribute = `${(Number(totalToDistribute.toString()) / 1e18).toLocaleString("us")} ARB`;
+    console.log(`Total to distribute: ${formattedTotalToDistribute}`);
 
     const distributionTimestamp = data[`gm${markets[0].symbol}Market`][0].timestamp;
     const batch = createBatch({
@@ -185,7 +190,7 @@ const main = async () => {
     const transactionBatchFile = `./distributions/${distributionTimestamp}_transaction_batch.json`;
     const inputFile = `./distributions/${distributionTimestamp}_input.json`;
     await writeFile(transactionBatchFile, JSON.stringify(batch, null, 4), 'utf8');
-    await writeFile(inputFile, JSON.stringify({ url, headers, query: latestDistributionQuery.replace(/\n\s*/g, ' ').replace(/\"/g, '\'').trim(), result: data }, null, 4), 'utf8');
+    await writeFile(inputFile, JSON.stringify({ url, headers, query: latestDistributionQuery.replace(/\n\s*/g, ' ').replace(/\"/g, '\'').trim(), result: data, summary: { ...formattedDistributions, totalToDistribute: formattedTotalToDistribute } }, null, 4), 'utf8');
     await writeFile('./distributions/.latest', distributionTimestamp.toString(), 'utf8');
     console.log(`Created distribution: ${transactionBatchFile}`);
   }

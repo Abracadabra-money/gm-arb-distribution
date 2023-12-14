@@ -67,5 +67,13 @@
                 "timestamp": 1701820800
             }
         ]
+    },
+    "summary": {
+        "ARB": "442.172 ARB",
+        "BTC": "3,397.217 ARB",
+        "ETH": "4,515.854 ARB",
+        "LINK": "39.646 ARB",
+        "SOL": "2,029.744 ARB",
+        "totalToDistribute": "10,424.632 ARB"
     }
 }
