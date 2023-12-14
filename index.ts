@@ -118,6 +118,11 @@ const main = async () => {
 
   const { data } = await result.json() as Query;
 
+  const equalDepositCount = new Set(markets.map(({ symbol }) => data[`gm${symbol}Deposit`].length)).size < 2;
+  if (!equalDepositCount) {
+    throw Error(`Uneven amount of deposits. Please wait for subgraph to be updated.`);
+  }
+
   // Calculate distribution
   const transactions = [];
   let totalToDistribute = BigInt(0);
