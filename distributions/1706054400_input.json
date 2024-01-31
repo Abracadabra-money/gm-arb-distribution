@@ -1,0 +1,79 @@
+{
+    "url": "https://subgraph.satsuma-prod.com/gmx/synthetics-arbitrum-stats/api",
+    "headers": {
+        "Content-Type": "application/json",
+        "origin": "https://subgraph.satsuma-prod.com",
+        "referer": "https://subgraph.satsuma-prod.com/gmx/synthetics-arbitrum-stats/playground"
+    },
+    "query": "query { gmARBDeposit: liquidityProviderIncentivesStats( skip: 1 first: 10000 where: { account: '0x7c8fef8ea9b1fe46a7689bfb8149341c90431d38' marketAddress: '0xc25cef6061cf5de5eb761b50e4743c1f5d7e5407' timestamp_gt: 1705449600 } orderBy: timestamp orderDirection: desc ) { weightedAverageMarketTokensBalance timestamp } gmARBMarket: marketIncentivesStats( skip: 1 first: 10000 where: { marketAddress: '0xc25cef6061cf5de5eb761b50e4743c1f5d7e5407' timestamp_gt: 1705449600 } orderBy: timestamp orderDirection: desc ) { weightedAverageMarketTokensSupply timestamp } gmBTCDeposit: liquidityProviderIncentivesStats( skip: 1 first: 10000 where: { account: '0x7c8fef8ea9b1fe46a7689bfb8149341c90431d38' marketAddress: '0x47c031236e19d024b42f8ae6780e44a573170703' timestamp_gt: 1705449600 } orderBy: timestamp orderDirection: desc ) { weightedAverageMarketTokensBalance timestamp } gmBTCMarket: marketIncentivesStats( skip: 1 first: 10000 where: { marketAddress: '0x47c031236e19d024b42f8ae6780e44a573170703' timestamp_gt: 1705449600 } orderBy: timestamp orderDirection: desc ) { weightedAverageMarketTokensSupply timestamp } gmETHDeposit: liquidityProviderIncentivesStats( skip: 1 first: 10000 where: { account: '0x7c8fef8ea9b1fe46a7689bfb8149341c90431d38' marketAddress: '0x70d95587d40a2caf56bd97485ab3eec10bee6336' timestamp_gt: 1705449600 } orderBy: timestamp orderDirection: desc ) { weightedAverageMarketTokensBalance timestamp } gmETHMarket: marketIncentivesStats( skip: 1 first: 10000 where: { marketAddress: '0x70d95587d40a2caf56bd97485ab3eec10bee6336' timestamp_gt: 1705449600 } orderBy: timestamp orderDirection: desc ) { weightedAverageMarketTokensSupply timestamp } gmLINKDeposit: liquidityProviderIncentivesStats( skip: 1 first: 10000 where: { account: '0x7c8fef8ea9b1fe46a7689bfb8149341c90431d38' marketAddress: '0x7f1fa204bb700853d36994da19f830b6ad18455c' timestamp_gt: 1705449600 } orderBy: timestamp orderDirection: desc ) { weightedAverageMarketTokensBalance timestamp } gmLINKMarket: marketIncentivesStats( skip: 1 first: 10000 where: { marketAddress: '0x7f1fa204bb700853d36994da19f830b6ad18455c' timestamp_gt: 1705449600 } orderBy: timestamp orderDirection: desc ) { weightedAverageMarketTokensSupply timestamp } gmSOLDeposit: liquidityProviderIncentivesStats( skip: 1 first: 10000 where: { account: '0x7c8fef8ea9b1fe46a7689bfb8149341c90431d38' marketAddress: '0x09400d9db990d5ed3f35d7be61dfaeb900af03c9' timestamp_gt: 1705449600 } orderBy: timestamp orderDirection: desc ) { weightedAverageMarketTokensBalance timestamp } gmSOLMarket: marketIncentivesStats( skip: 1 first: 10000 where: { marketAddress: '0x09400d9db990d5ed3f35d7be61dfaeb900af03c9' timestamp_gt: 1705449600 } orderBy: timestamp orderDirection: desc ) { weightedAverageMarketTokensSupply timestamp } }",
+    "result": {
+        "gmARBDeposit": [
+            {
+                "weightedAverageMarketTokensBalance": "1995130983169146740702122",
+                "timestamp": 1706054400
+            }
+        ],
+        "gmARBMarket": [
+            {
+                "weightedAverageMarketTokensSupply": "16117678904703586619241379",
+                "timestamp": 1706054400
+            }
+        ],
+        "gmBTCDeposit": [
+            {
+                "weightedAverageMarketTokensBalance": "6143646891564288830401063",
+                "timestamp": 1706054400
+            }
+        ],
+        "gmBTCMarket": [
+            {
+                "weightedAverageMarketTokensSupply": "111118123637145599570501310",
+                "timestamp": 1706054400
+            }
+        ],
+        "gmETHDeposit": [
+            {
+                "weightedAverageMarketTokensBalance": "4771615040400861046690150",
+                "timestamp": 1706054400
+            }
+        ],
+        "gmETHMarket": [
+            {
+                "weightedAverageMarketTokensSupply": "112391598279081512358187121",
+                "timestamp": 1706054400
+            }
+        ],
+        "gmLINKDeposit": [
+            {
+                "weightedAverageMarketTokensBalance": "2672699657167527116673653",
+                "timestamp": 1706054400
+            }
+        ],
+        "gmLINKMarket": [
+            {
+                "weightedAverageMarketTokensSupply": "7735014059413366582939906",
+                "timestamp": 1706054400
+            }
+        ],
+        "gmSOLDeposit": [
+            {
+                "weightedAverageMarketTokensBalance": "4352595016157930537454724",
+                "timestamp": 1706054400
+            }
+        ],
+        "gmSOLMarket": [
+            {
+                "weightedAverageMarketTokensSupply": "9702394406442822702816787",
+                "timestamp": 1706054400
+            }
+        ]
+    },
+    "summary": {
+        "ARB": "618.926 ARB",
+        "BTC": "4,976.04 ARB",
+        "ETH": "3,396.421 ARB",
+        "LINK": "4,146.391 ARB",
+        "SOL": "4,486.104 ARB",
+        "totalToDistribute": "17,623.883 ARB"
+    }
+}
