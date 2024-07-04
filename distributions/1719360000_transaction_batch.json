@@ -1,0 +1,275 @@
+{
+    "version": "1.0",
+    "createdAt": 1720083384004,
+    "chainId": "42161",
+    "transactions": [
+        {
+            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "value": "0",
+            "contractMethod": {
+                "name": "approve",
+                "type": "function",
+                "stateMutability": "nonpayable",
+                "inputs": [
+                    {
+                        "type": "address",
+                        "name": "_spender"
+                    },
+                    {
+                        "type": "uint256",
+                        "name": "_value"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "bool",
+                        "name": "success"
+                    }
+                ]
+            },
+            "contractInputsValues": {
+                "_spender": "0xaf4fdcaa6d9d5be4acd8fce02fa37f72b31a74cb",
+                "_value": "35904896797291373808"
+            }
+        },
+        {
+            "to": "0xaf4fdcaa6d9d5be4acd8fce02fa37f72b31a74cb",
+            "value": "0",
+            "contractMethod": {
+                "name": "notifyRewardAmount",
+                "type": "function",
+                "stateMutability": "nonpayable",
+                "inputs": [
+                    {
+                        "type": "address",
+                        "name": "rewardToken"
+                    },
+                    {
+                        "type": "uint256",
+                        "name": "amount"
+                    }
+                ],
+                "outputs": []
+            },
+            "contractInputsValues": {
+                "amount": "35904896797291373808",
+                "rewardToken": "0x912ce59144191c1204e64559fe8253a0e49e6548"
+            }
+        },
+        {
+            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "value": "0",
+            "contractMethod": {
+                "name": "approve",
+                "type": "function",
+                "stateMutability": "nonpayable",
+                "inputs": [
+                    {
+                        "type": "address",
+                        "name": "_spender"
+                    },
+                    {
+                        "type": "uint256",
+                        "name": "_value"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "bool",
+                        "name": "success"
+                    }
+                ]
+            },
+            "contractInputsValues": {
+                "_spender": "0xeb0deab1099dd5a7d499b89a6f47cef8f08c5680",
+                "_value": "347603144072096298178"
+            }
+        },
+        {
+            "to": "0xeb0deab1099dd5a7d499b89a6f47cef8f08c5680",
+            "value": "0",
+            "contractMethod": {
+                "name": "notifyRewardAmount",
+                "type": "function",
+                "stateMutability": "nonpayable",
+                "inputs": [
+                    {
+                        "type": "address",
+                        "name": "rewardToken"
+                    },
+                    {
+                        "type": "uint256",
+                        "name": "amount"
+                    }
+                ],
+                "outputs": []
+            },
+            "contractInputsValues": {
+                "amount": "347603144072096298178",
+                "rewardToken": "0x912ce59144191c1204e64559fe8253a0e49e6548"
+            }
+        },
+        {
+            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "value": "0",
+            "contractMethod": {
+                "name": "approve",
+                "type": "function",
+                "stateMutability": "nonpayable",
+                "inputs": [
+                    {
+                        "type": "address",
+                        "name": "_spender"
+                    },
+                    {
+                        "type": "uint256",
+                        "name": "_value"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "bool",
+                        "name": "success"
+                    }
+                ]
+            },
+            "contractInputsValues": {
+                "_spender": "0xa7940dcb17214fabce26e146613804308c01c295",
+                "_value": "540988289755804804972"
+            }
+        },
+        {
+            "to": "0xa7940dcb17214fabce26e146613804308c01c295",
+            "value": "0",
+            "contractMethod": {
+                "name": "notifyRewardAmount",
+                "type": "function",
+                "stateMutability": "nonpayable",
+                "inputs": [
+                    {
+                        "type": "address",
+                        "name": "rewardToken"
+                    },
+                    {
+                        "type": "uint256",
+                        "name": "amount"
+                    }
+                ],
+                "outputs": []
+            },
+            "contractInputsValues": {
+                "amount": "540988289755804804972",
+                "rewardToken": "0x912ce59144191c1204e64559fe8253a0e49e6548"
+            }
+        },
+        {
+            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "value": "0",
+            "contractMethod": {
+                "name": "approve",
+                "type": "function",
+                "stateMutability": "nonpayable",
+                "inputs": [
+                    {
+                        "type": "address",
+                        "name": "_spender"
+                    },
+                    {
+                        "type": "uint256",
+                        "name": "_value"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "bool",
+                        "name": "success"
+                    }
+                ]
+            },
+            "contractInputsValues": {
+                "_spender": "0x5b51f27c279aeecc8352688b69d55b533417e263",
+                "_value": "87114649388687967212"
+            }
+        },
+        {
+            "to": "0x5b51f27c279aeecc8352688b69d55b533417e263",
+            "value": "0",
+            "contractMethod": {
+                "name": "notifyRewardAmount",
+                "type": "function",
+                "stateMutability": "nonpayable",
+                "inputs": [
+                    {
+                        "type": "address",
+                        "name": "rewardToken"
+                    },
+                    {
+                        "type": "uint256",
+                        "name": "amount"
+                    }
+                ],
+                "outputs": []
+            },
+            "contractInputsValues": {
+                "amount": "87114649388687967212",
+                "rewardToken": "0x912ce59144191c1204e64559fe8253a0e49e6548"
+            }
+        },
+        {
+            "to": "0x912ce59144191c1204e64559fe8253a0e49e6548",
+            "value": "0",
+            "contractMethod": {
+                "name": "approve",
+                "type": "function",
+                "stateMutability": "nonpayable",
+                "inputs": [
+                    {
+                        "type": "address",
+                        "name": "_spender"
+                    },
+                    {
+                        "type": "uint256",
+                        "name": "_value"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "bool",
+                        "name": "success"
+                    }
+                ]
+            },
+            "contractInputsValues": {
+                "_spender": "0x18f7cca3d98ad96cf26dbda1db3fd71e30d32d31",
+                "_value": "1545373029480977554198"
+            }
+        },
+        {
+            "to": "0x18f7cca3d98ad96cf26dbda1db3fd71e30d32d31",
+            "value": "0",
+            "contractMethod": {
+                "name": "notifyRewardAmount",
+                "type": "function",
+                "stateMutability": "nonpayable",
+                "inputs": [
+                    {
+                        "type": "address",
+                        "name": "rewardToken"
+                    },
+                    {
+                        "type": "uint256",
+                        "name": "amount"
+                    }
+                ],
+                "outputs": []
+            },
+            "contractInputsValues": {
+                "amount": "1545373029480977554198",
+                "rewardToken": "0x912ce59144191c1204e64559fe8253a0e49e6548"
+            }
+        }
+    ],
+    "meta": {
+        "checksum": "0x1f6e8cec8af0f864a942d0d9da5343a12dfbab0c68b860227cd7db1a127cb325"
+    }
+}
